@@ -5,26 +5,23 @@ use IEEE.MATH_REAL.ALL;
 
 entity debouncer is
     generic(
-        g_timeout          : integer   := 5;        -- Time in ms
-        g_clock_freq_KHZ   : integer   := 100_000   -- Frequency in KHz of the system 
+        g_timeout          : integer   := 5;       
+        g_clock_freq_KHZ   : integer   := 100_000   
     );   
     port (  
-        rst_n       : in    std_logic; -- asynchronous reset, low -active
-        clk         : in    std_logic; -- system clk
-        ena         : in    std_logic; -- enable must be on 1 to work (kind of synchronous reset)
-        sig_in      : in    std_logic; -- signal to debounce
-        debounced   : out   std_logic  -- 1 pulse flag output when the timeout has occurred
+        rst_n       : in    std_logic; 
+        clk         : in    std_logic; 
+        ena         : in    std_logic; 
+        sig_in      : in    std_logic; 
+        debounced   : out   std_logic  
     ); 
 end debouncer;
 
 architecture Behavioural of debouncer is 
       
-    -- Calculate the number of cycles of the counter (debounce_time * freq), result in cycles
     constant c_cycles           : integer := integer(g_timeout * g_clock_freq_KHZ) ;
-	-- Calculate the length of the counter so the count fits
     constant c_counter_width    : integer := integer(ceil(log2(real(c_cycles))));
     
-    -- Declarar un tipo para los estados de la FSM
     type state_type is (IDLE, COUNTING, STABLE);
     signal state, next_state : state_type;
     
@@ -32,7 +29,6 @@ architecture Behavioural of debouncer is
     signal sig_stable : std_logic := '0';
     
 begin
-    -- Timer process
     process (clk, rst_n)
     begin
         if rst_n = '0' then
@@ -48,7 +44,6 @@ begin
         end if;
     end process;
 
-    -- FSM Register of next state
     process (clk, rst_n)
     begin
         if rst_n = '0' then
@@ -58,7 +53,6 @@ begin
         end if;
     end process;
     
-    -- Combinational logic for FSM
     process (state, sig_in, counter)
     begin
         case state is
@@ -88,7 +82,6 @@ begin
         end case;
     end process;
     
-    -- Output assignment
     debounced <= '1' when state = STABLE else '0';
     
 end Behavioural;
