@@ -1,25 +1,3 @@
---------------------------------------------------------------------------------
---
--- Title       : 	Testbench for the debounce logic module
--- Design      :	
--- Author      :	Pablo Sarabia Ortiz
--- Company     :	Universidad de Nebrija
---------------------------------------------------------------------------------
--- File        : tb_debouncer.vhd
--- Generated   : 7 February 2022
---------------------------------------------------------------------------------
--- Description : This testbench generates syncronous signals with variable 
---    bounce duration
---------------------------------------------------------------------------------
--- Revision History :
--- -----------------------------------------------------------------------------
-
---   Ver  :| Author            :| Mod. Date :|    Changes Made:
-
---   v1.0  | Pablo Sarabia     :| 07/02/22  :| First version
-
--- -----------------------------------------------------------------------------
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
@@ -30,8 +8,8 @@ end tb_debouncer;
 architecture testBench of tb_debouncer is
   component debouncer is
     generic(
-        g_timeout          : integer   := 5;        -- Time in ms
-        g_clock_freq_KHZ   : integer   := 100_000   -- Frequency in KHz of the system 
+        g_timeout          : integer   := 5;        
+        g_clock_freq_KHZ   : integer   := 100_000   
     );   
     port (  
         rst_n       : in    std_logic;
@@ -42,15 +20,13 @@ architecture testBench of tb_debouncer is
     ); 
   end component;
   
-  constant timer_debounce : integer := 10; --ms
-  constant freq : integer := 100_000; --KHZ
+  constant timer_debounce : integer := 10; 
+  constant freq : integer := 100_000; 
   constant clk_period : time := (1 ms/ freq);
-  -- Inputs 
   signal  rst_n       :   std_logic := '0';
   signal  clk         :   std_logic := '0';
   signal  ena         :   std_logic := '1';
   signal  BTN_sync      :   std_logic := '0';
-  -- Output
   signal  debounced   :   std_logic;
    
 begin
