@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2021.1 (64-bit)
+# SW Build 3247384 on Thu Jun 10 19:36:33 MDT 2021
+# IP Build 3246043 on Fri Jun 11 00:30:35 MDT 2021
+# Start of session at: Tue Mar 18 13:37:07 2025
+# Process ID: 10644
+# Current directory: C:/Users/Jorge/Desktop/practica1_fiables_jorge_fernandez_vicente_wang/practica1_fiables_jorge_fernandez_vicente_wang.runs/synth_1
+# Command line: vivado.exe -log top_practica1.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source top_practica1.tcl
+# Log file: C:/Users/Jorge/Desktop/practica1_fiables_jorge_fernandez_vicente_wang/practica1_fiables_jorge_fernandez_vicente_wang.runs/synth_1/top_practica1.vds
+# Journal file: C:/Users/Jorge/Desktop/practica1_fiables_jorge_fernandez_vicente_wang/practica1_fiables_jorge_fernandez_vicente_wang.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source top_practica1.tcl -notrace

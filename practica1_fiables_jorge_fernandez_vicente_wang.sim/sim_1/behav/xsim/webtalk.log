@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Webtalk v2021.1 (64-bit)
+# SW Build 3247384 on Thu Jun 10 19:36:33 MDT 2021
+# IP Build 3246043 on Fri Jun 11 00:30:35 MDT 2021
+# Start of session at: Tue Mar 18 13:42:54 2025
+# Process ID: 18240
+# Current directory: C:/Users/Jorge/Desktop/practica1_fiables_jorge_fernandez_vicente_wang/practica1_fiables_jorge_fernandez_vicente_wang.sim/sim_1/behav/xsim
+# Command line: wbtcv.exe -mode batch -source C:/Users/Jorge/Desktop/practica1_fiables_jorge_fernandez_vicente_wang/practica1_fiables_jorge_fernandez_vicente_wang.sim/sim_1/behav/xsim/xsim.dir/tb_debouncer_behav/webtalk/xsim_webtalk.tcl -notrace
+# Log file: C:/Users/Jorge/Desktop/practica1_fiables_jorge_fernandez_vicente_wang/practica1_fiables_jorge_fernandez_vicente_wang.sim/sim_1/behav/xsim/webtalk.log
+# Journal file: C:/Users/Jorge/Desktop/practica1_fiables_jorge_fernandez_vicente_wang/practica1_fiables_jorge_fernandez_vicente_wang.sim/sim_1/behav/xsim\webtalk.jou
+#-----------------------------------------------------------
+source C:/Users/Jorge/Desktop/practica1_fiables_jorge_fernandez_vicente_wang/practica1_fiables_jorge_fernandez_vicente_wang.sim/sim_1/behav/xsim/xsim.dir/tb_debouncer_behav/webtalk/xsim_webtalk.tcl -notrace
+webtalk_transmit: Time (s): cpu = 00:00:00 ; elapsed = 00:00:09 . Memory (MB): peak = 86.375 ; gain = 4.750
+INFO: [Common 17-206] Exiting Webtalk at Tue Mar 18 13:43:03 2025...
