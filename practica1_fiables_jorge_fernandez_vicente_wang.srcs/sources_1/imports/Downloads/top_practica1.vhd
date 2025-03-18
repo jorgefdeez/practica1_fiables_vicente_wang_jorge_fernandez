@@ -1,75 +1,55 @@
---------------------------------------------------------------------------------
---
--- Title       : 	Top module for practica 1
--- Design      :	
--- Author      :	Pablo Sarabia Ortiz
--- Company     :	Universidad de Nebrija
---------------------------------------------------------------------------------
--- File        : top_practica1.vhd
--- Generated   : 7 February 2022
---------------------------------------------------------------------------------
--- Description : Inputs and outputs for the practica 1
---------------------------------------------------------------------------------
--- Revision History :
--- -----------------------------------------------------------------------------
-
---   Ver  :| Author            :| Mod. Date :|    Changes Made:
-
---   v1.0  | Pablo Sarabia     :| 07/02/22  :| First version
-
--- -----------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity top_practica1 is
   generic (
-      g_sys_clock_freq_KHZ  : integer := 100e3; -- Value of the clock frequencies in KHz
-      g_debounce_time       : integer := 20;  -- Time for the debouncer in ms
-      g_reset_value         : std_logic := '0'; -- Value for the synchronizer 
-      g_number_flip_flps    : natural := 2  -- Number of ffs used to synchronize 
+      g_sys_clock_freq_KHZ  : integer := 100e3; 
+      g_debounce_time       : integer := 20;  
+      g_reset_value         : std_logic := '0'; 
+      g_number_flip_flps    : natural := 2   
   );
   port (
-      rst_n         : in std_logic; --Negate reset must be connected to the switch 0 
-      clk100Mhz     : in std_logic; -- Connect to the main clk
-      BTNC          : in std_logic; -- Connect to the BTNC
-      LED           : out std_logic --Connect to the LED 0
+      rst_n         : in std_logic; 
+      clk100Mhz     : in std_logic;
+      BTNC          : in std_logic; 
+      LED           : out std_logic 
   );
 end top_practica1;
 
 architecture behavioural of top_practica1 is
   component debouncer is
     generic(
-        g_timeout         : integer  := 5; -- Time for debouncing (value overrided)         
-        g_clock_freq_KHZ  : integer  := 100_000 -- Frequency in KHz of the system (value overrided)    
+        g_timeout         : integer  := 5;        
+        g_clock_freq_KHZ  : integer  := 100_000   
     );   
     port (  
-        rst_n       : in    std_logic; -- asynchronous reset, low -active
-        clk         : in    std_logic; -- system clk
-        ena         : in    std_logic; -- enable must be on 1 to work (kind of synchronous reset)
-        sig_in      : in    std_logic; -- signal to debounce
-        debounced   : out   std_logic  -- 1 pulse flag output when the timeout has occurred
+        rst_n       : in    std_logic; 
+        clk         : in    std_logic;
+        ena         : in    std_logic;
+        sig_in      : in    std_logic;
+        debounced   : out   std_logic  
     ); 
   end component;
 
   component synchronizer is
   generic (
-    RESET_VALUE    : std_logic  := '0'; -- reset value of all flip-flops in the chain
-    NUM_FLIP_FLOPS : natural    := 2 -- number of flip-flops in the synchronizer chain
+    RESET_VALUE    : std_logic  := '0'; 
+    NUM_FLIP_FLOPS : natural    := 2 
   );
   port(
-    rst      : in std_logic; -- asynchronous, low-active
-    clk      : in std_logic; -- destination clock
-    data_in  : in std_logic; -- data that wants to be synchronized
-    data_out : out std_logic -- data synchronized
+    rst      : in std_logic; 
+    clk      : in std_logic; 
+    data_in  : in std_logic;
+    data_out : out std_logic 
   );
   end component;
 
-  signal BTN_sync : std_logic; -- Synchronized signal of the BTNC 
-  signal Toggle_LED : std_logic; -- Internal signal to connect between the debouncer and the toggle process
-  signal LED_register, state_LED : std_logic; -- The output signal of the LED registered and unregistered
+  signal BTN_sync : std_logic;  
+  signal Toggle_LED : std_logic;
+  signal LED_register, state_LED : std_logic; 
 begin
-  -- DEBOUNCER
+
   debouncer_inst: debouncer
     generic map (
       g_timeout        => g_debounce_time, 
@@ -78,12 +58,10 @@ begin
     port map (
       rst_n     => rst_n,
       clk       => clk100Mhz,
-      ena       => '1', -- Always enabled for this lab
-      sig_in    => BTN_sync, -- Synchronized input from the synchronizer
-      debounced => toggle_LED -- Output to the toggle LED process
+      ena       => '1',
+      debounced => toggle_LED
     );
   
-  -- SYNCHRONIZER
   synchronizer_inst: synchronizer
     generic map (
       RESET_VALUE    => g_reset_value,
@@ -96,26 +74,23 @@ begin
       data_out => BTN_sync
     );
   
-  -- PROCESS to register LED output 
   registerLED: process(clk100Mhz, rst_n) is
   begin
     if (rst_n = '0') then
-      LED_register <= '0'; -- Inicializa el LED apagado
+      LED_register <= '0'; 
     elsif rising_edge(clk100Mhz) then
       LED_register <= state_LED;
     end if;
   end process;  
 
-  -- PROCESS to toggle LED
   toggleLED: process(Toggle_LED, LED_register)
   begin 
     if Toggle_LED = '1' then
-      state_LED <= not LED_register; -- Toggle del LED
+      state_LED <= not LED_register;
     else
       state_LED <= LED_register;
     end if;
   end process;
   
-  -- Connect LED_register to the output
   LED <= LED_register;
 end behavioural;
